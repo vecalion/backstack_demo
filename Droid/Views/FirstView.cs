@@ -9,13 +9,13 @@ using System;
 
 namespace backstack.Droid.Views
 {
-    [Activity(Label = "View for FirstViewModel")]
-    public class FirstView : MvxActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
-            SetContentView(Resource.Layout.FirstView);
+	[Activity (Label = "View for FirstViewModel")]
+	public class FirstView : MvxActivity
+	{
+		protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
+			SetContentView (Resource.Layout.FirstView);
 
 			var intentDeep = new Intent (this, typeof(DeepView));
 			SetMvxParams (intentDeep, typeof(DeepViewModel), "message", "FROM INTENT");
@@ -36,8 +36,8 @@ namespace backstack.Droid.Views
 				.SetContentIntent (pendingIntent);
 
 			var notificationManager = (NotificationManager)GetSystemService (NotificationService);
-			notificationManager.Notify (0, builder.Build());
-        }
+			notificationManager.Notify (0, builder.Build ());
+		}
 
 		static void SetMvxParams (Intent intent, Type viewModelType, string key, string value)
 		{
@@ -52,5 +52,5 @@ namespace backstack.Droid.Views
 			intent.SetAction (string.Empty);
 			intent.PutExtra (extrasKey, requestText);
 		}
-    }
+	}
 }
