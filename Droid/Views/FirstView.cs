@@ -17,11 +17,8 @@ namespace backstack.Droid.Views
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.FirstView);
 
-			var intentDeep = new Intent (this, typeof(DeepView));
-			SetMvxParams (intentDeep, typeof(DeepViewModel), "message", "FROM INTENT");
-
-			var intentDeeper = new Intent (this, typeof(DeeperView));
-			SetMvxParams (intentDeeper, typeof(DeeperViewModel), "answer", "42");
+			var intentDeep = this.CreateIntentFor<DeepViewModel> (new Dictionary<string, string> { { "message", "FROM INTENT" } });
+			var intentDeeper = this.CreateIntentFor<DeeperViewModel> (new Dictionary<string, string> { { "answer", "42" } });
 
 			var taskStackBuilder = TaskStackBuilder.Create (this)
 				.AddNextIntent (intentDeeper)
@@ -37,20 +34,6 @@ namespace backstack.Droid.Views
 
 			var notificationManager = (NotificationManager)GetSystemService (NotificationService);
 			notificationManager.Notify (0, builder.Build ());
-		}
-
-		static void SetMvxParams (Intent intent, Type viewModelType, string key, string value)
-		{
-			var request = MvxViewModelRequest.GetDefaultRequest (viewModelType);
-			request.ParameterValues = new Dictionary<string, string> ();
-			request.ParameterValues.Add (key, value);
-
-			var extrasKey = "MvxLaunchData";
-			var converter = Mvx.Resolve<IMvxNavigationSerializer> ();
-			var requestText = converter.Serializer.SerializeObject (request);
-
-			intent.SetAction (string.Empty);
-			intent.PutExtra (extrasKey, requestText);
 		}
 	}
 }
